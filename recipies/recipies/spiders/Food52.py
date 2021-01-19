@@ -30,7 +30,7 @@ class Food52(scrapy.Spider):
 
             yield {
                 'title': title,
-                'author' : item.css('div.meta__author a.meta__caps::text').get(),
+                'author' : item.css('div.meta__author a.meta__caps::text').get().strip("\n"),
                 'tags' : item.css('ul.tag-list a.tag::text').getall(),       # getall() to return a list of tags
                 'image': item.css('picture img::attr(data-pin-media)').get(),
                 'recipe_notes': item.css('div.recipe__notes p').getall(),

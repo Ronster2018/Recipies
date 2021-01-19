@@ -16,7 +16,7 @@ class FoodwishesSpider(scrapy.Spider):
     def parse_recipe_page(self, response):
         try:
             links = response.css('div.hfeed h3.entry-title a::attr(href)').getall()
-        except Exception as identifier:
+        except Exception:
             links = response.css('div.entry-content h4 a::attr(href)').getall()
 
         yield from response.follow_all(links, callback=self.parse_recipe)
@@ -25,10 +25,10 @@ class FoodwishesSpider(scrapy.Spider):
 
         for item in response.css('div.hentry'):
             yield {
-                'title': item.css('h3.entry-title a::text').get(),
+                'title': item.css('h3.entry-title a::text').get().strip("\n"),
                 'author' : 'Chef John',
                 'tags' : item.css('span.post-labels a::text').getall(),       # getall() to return a list of tags
                 'image': item.css('div.separator img::attr(src)').get(),
-                'recipe_notes': item.css('span::text').get(),
+                'recipe_notes': item.css('span::text').get().strip("\n"),
                 'url': str(response.url)
             }
