@@ -128,3 +128,4 @@ dmypy.json
 # Pyre type checker
 .pyre/
 recipies/*.json
+recipies/recipes.db

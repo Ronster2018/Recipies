@@ -61,10 +61,11 @@ ROBOTSTXT_OBEY = True
 #}
 
 # Configure item pipelines
+# Number at end represents priority. Lower number, higher priority.
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'recipies.pipelines.RecipiesPipeline': 300,
-#}
+ITEM_PIPELINES = {
+   'recipies.pipelines.RecipiesPipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
