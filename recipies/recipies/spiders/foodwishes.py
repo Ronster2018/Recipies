@@ -1,4 +1,5 @@
 import scrapy
+from ..items import RecipiesItem
 
 # New Spider generated with $ scrapy genspider foodwishes foodwishes.blogspot.com
 class FoodwishesSpider(scrapy.Spider):
@@ -22,13 +23,23 @@ class FoodwishesSpider(scrapy.Spider):
         yield from response.follow_all(links, callback=self.parse_recipe)
 
     def parse_recipe(self, response):
-
+        container = RecipiesItem()
         for item in response.css('div.hentry'):
-            yield {
-                'title': item.css('h3.entry-title a::text').get().strip("\n"),
-                'author' : 'Chef John',
-                'tags' : item.css('span.post-labels a::text').getall(),       # getall() to return a list of tags
-                'image': item.css('div.separator img::attr(src)').get(),
-                'recipe_notes': item.css('span::text').get().strip("\n"),
-                'url': str(response.url)
-            }
+
+            container['title'] = item.css('h3.entry-title a::text').get().strip("\n")
+            container['author'] = 'Chef John'
+            container['tags'] =  item.css('span.post-labels a::text').getall()
+            container['image'] = item.css('div.separator img::attr(src)').get()
+            container['recipe_notes'] = item.css('span::text').get().strip("\n")
+            container['url'] = response.url
+            
+            # yield {
+            #     'title': item.css('h3.entry-title a::text').get().strip("\n"),
+            #     'author' : 'Chef John',
+            #     'tags' : item.css('span.post-labels a::text').getall(),       # getall() to return a list of tags
+            #     'image': item.css('div.separator img::attr(src)').get(),
+            #     'recipe_notes': item.css('span::text').get().strip("\n"),
+            #     'url': str(response.url)
+            # }
+
+            yield container
