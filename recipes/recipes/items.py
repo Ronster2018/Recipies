@@ -2,7 +2,7 @@ import scrapy
 
 # Extraced data from spiders -> Temporary Containers (items) -> Store to Database 
 
-class RecipiesItem(scrapy.Item):
+class RecipesItem(scrapy.Item):
     # define the fields for your item here like:
     title = scrapy.Field()
     author = scrapy.Field()

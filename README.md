@@ -1,2 +1,2 @@
-# Recipies
-A dynamic web crawler designed to gather recipies from several different websites
+# Recipes
+A dynamic web crawler designed to gather recipes from several different websites

@@ -6,7 +6,7 @@ import sqlite3
 # 1 Activate/Add inside settings
 # 2 Every time and item is yeilded, it comes here
 
-class RecipiesPipeline:
+class RecipesPipeline:
     def __init__(self): # Called once or else the tables would be dropped and created every time
         '''
         Used to create connection, cursor, and tables
@@ -16,9 +16,9 @@ class RecipiesPipeline:
         self.create_table()
 
     def create_table(self):
-        self.cursor.execute("""DROP TABLE IF EXISTS tbl_recipe""")
+        self.cursor.execute("""DROP TABLE IF EXISTS tbl_recipes""")
         self.cursor.execute("""
-                        CREATE TABLE tbl_recipe(
+                        CREATE TABLE tbl_recipes(
                             title text ,
                             author text,
                             tags text,
@@ -29,7 +29,7 @@ class RecipiesPipeline:
                     """)
 
     def store_db(self, item):
-        self.cursor.execute("""INSERT INTO tbl_recipe VALUES (?, ?, ?, ?, ?, ?)""",
+        self.cursor.execute("""INSERT INTO tbl_recipes VALUES (?, ?, ?, ?, ?, ?)""",
         (
             str(item['title']), # Type cast to string incase items is NoneType (None) with some images or tags
             str(item['author']), 
@@ -43,4 +43,5 @@ class RecipiesPipeline:
 
     def process_item(self, item, spider): #Entrypoint for pipeline
         self.store_db(item)
+        print('Writing to the DB!')
         return item

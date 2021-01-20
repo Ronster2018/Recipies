@@ -1,5 +1,5 @@
 import scrapy
-from ..items import RecipiesItem
+from ..items import RecipesItem
 
 # New Spider generated with $ scrapy genspider foodwishes foodwishes.blogspot.com
 class FoodwishesSpider(scrapy.Spider):
@@ -12,18 +12,18 @@ class FoodwishesSpider(scrapy.Spider):
         links = response.css('div.BlogArchive a.post-count-link::attr(href)').getall()
 
         # Get all links from those resulting pages
-        yield from response.follow_all(links, callback=self.parse_recipe_page)
+        yield from response.follow_all(links, callback=self.parse_recipes_page)
 
-    def parse_recipe_page(self, response):
+    def parse_recipes_page(self, response):
         try:
             links = response.css('div.hfeed h3.entry-title a::attr(href)').getall()
         except Exception:
             links = response.css('div.entry-content h4 a::attr(href)').getall()
 
-        yield from response.follow_all(links, callback=self.parse_recipe)
+        yield from response.follow_all(links, callback=self.parse_recipes)
 
-    def parse_recipe(self, response):
-        container = RecipiesItem()
+    def parse_recipes(self, response):
+        container = RecipesItem()
         for item in response.css('div.hentry'):
 
             container['title'] = item.css('h3.entry-title a::text').get().strip("\n")
